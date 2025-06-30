@@ -21,10 +21,12 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = $this->route('user');
+
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password'=> 'required|min:6',
+            'email' => 'required|email|unique:users,email,' . ($user ? $user->id : null),
+            'password'=> 'required_if:password,!=,null|min:6',
         ];
     }
 
@@ -35,7 +37,7 @@ class UserRequest extends FormRequest
             'email.required'=> 'Campo email é obrigatório!',
             'email.email'=> 'Informe um email válido!',
             'email.unique'=> 'O email já está cadastrado!',
-            'password.required'=> 'Campo senha é obrigatório!',
+            'password.required_if'=> 'Campo senha é obrigatório!',
             'password.min'=> 'Senha com no mímimo :min caracteres!',
         ];
     }

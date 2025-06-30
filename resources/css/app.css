@@ -68,9 +68,64 @@
         @apply bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors;
     }
 
+    .btn-info {
+        @apply bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600 transition-colors;
+    }
+
     .btn-success {
         @apply p-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer transition-colors;
     }
+
+    .btn-warning {
+        @apply p-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 cursor-pointer transition-colors;
+    }
+
+    .btn-danger {
+        @apply p-2 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer transition-colors;
+    }
+
+    /* **** TABLES **** */
+    .table-container {
+        @apply overflow-x-auto bg-white shadow-md rounded-lg;
+    }
+
+    .table {
+        @apply min-w-full border-collapse w-full;
+    }
+
+    .table-header {
+        @apply bg-blue-400 text-white uppercase text-sm leading-normal;
+    }
+
+    .table-header th {
+        @apply py-3 px-6 text-left;
+    }
+
+    .table-header .center {
+        @apply text-center;
+    }
+
+    .table-body {
+        @apply text-gray-700 text-sm font-light;
+    }
+
+    .table-row {
+        @apply border-b border-gray-200 hover:bg-blue-50 transition;
+    }
+
+    .table-cell {
+        @apply py-3 px-6;
+    }
+
+    .table-actions {
+        @apply py-3 px-6 text-center;
+    }
+
+    /* **** PAGINATION **** */
+    .pagination {
+        @apply mt-2 p-3;
+    }
+
 
     /* **** ALERT **** */
     .alert-success {
