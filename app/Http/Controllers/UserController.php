@@ -58,4 +58,29 @@ class UserController extends Controller
             return back()->withInput()->with('error','Cadastro não editado!');
         }
     }
+
+    public function editPassword(User $user)
+    {
+        return view('users.editPassword', ['user' => $user]);
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'require|min:6'
+        ], [
+            'password.required' => 'O campo senha é obrigatório.',
+            'password.min' => 'A senha deve ter pelo menos :min caracteres.',
+        ]);
+
+        try {
+            $user->update([
+                'password' => $request->password,
+            ]);
+
+            return redirect()->route('user.show', ['user' => $user->id])->with('success', 'Senha alterada com sucesso!');
+        } catch (Exception $e) {
+            return back()->withInput()->with('error','Senha não foi alterada.');
+        }
+    }
 }
