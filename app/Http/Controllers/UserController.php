@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,6 +15,11 @@ class UserController extends Controller
         $users = User::orderByDesc("id")->paginate(10);
 
         return view("users.index", ["users"=> $users]);
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show', ['user' => $user]);
     }
     
     public function create()
@@ -26,16 +33,15 @@ class UserController extends Controller
 
         try {
 
-        User::create([
+        $user = User::create([
             "name"=> $request->name,
             "email"=> $request->email,
             "password"=> $request->password
         ]);
 
-        return redirect()->route('user.create')
-            ->with('success','Usuário cadastrado com sucesso!');
+        return redirect()->route('user.show', ['user' => $user->id])->with('success', 'Usuário cadastrado com sucesso!');
         } catch(Exception) {
-            return back()->withInput()->with('error','Usuário não cadastrado!');
+            return back()->withInput()->with('error', 'Usuário não cadastrado!');
         }
     }
 
@@ -66,21 +72,28 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, User $user)
     {
+
+        // Validar o formulário
         $request->validate([
-            'password' => 'require|min:6'
+            'password' => 'required|min:6',
         ], [
             'password.required' => 'O campo senha é obrigatório.',
             'password.min' => 'A senha deve ter pelo menos :min caracteres.',
         ]);
 
         try {
+
+            // Editar as informações do registro no banco de dados
             $user->update([
                 'password' => $request->password,
             ]);
 
-            return redirect()->route('user.show', ['user' => $user->id])->with('success', 'Senha alterada com sucesso!');
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('user.show', ['user' => $user->id])->with('success', 'Senha do usuário editada com sucesso!');
         } catch (Exception $e) {
-            return back()->withInput()->with('error','Senha não foi alterada.');
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return back()->withInput()->with('error', 'Senha do usuário não editada!');
         }
     }
 }
