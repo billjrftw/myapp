@@ -27,9 +27,14 @@
                             <td class="table-cell">{{ $user->name }}</td>
                             <td class="table-cell">{{ $user->email }}</td>
                             <td class="table-actions">
-                                <a href="{{ route('user.show', ['user' => $user]) }}" class="btn-primary">Visualizar</a>
+                                <a href="{{ route('user.show', ['user' => $user->id]) }}" class="btn-primary">Visualizar</a>
                                 <a href="{{ route('user.edit', ['user' => $user->id]) }}" class="btn-warning">Editar</a>
-                                <a href="#" class="btn-danger">Excluir</a>
+                                <form action="{{ route('user.destroy', ['user' => $user->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    {{-- <button type="button" class="btn-danger" onclick="confirmDelete({{ $user->id }})">Apagar</button> --}}
+                                    <button type="submit" class="btn-danger" onclick="return confirm('Tem certeza que deseja apagar este registro?')">Apagar</button>
+                                </form>
                             </td>
                         </tr>
                     @empty

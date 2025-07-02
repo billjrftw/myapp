@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::orderByDesc("id")->paginate(10);
+        $users = User::orderByDesc("id")->paginate(5);
 
         return view("users.index", ["users"=> $users]);
     }
@@ -94,6 +94,21 @@ class UserController extends Controller
 
             // Redirecionar o usuário, enviar a mensagem de erro
             return back()->withInput()->with('error', 'Senha do usuário não editada!');
+        }
+    }
+
+    public function destroy(User $user)
+    {
+        try {
+            // Excluir o registro do banco de dados
+            $user->delete();
+
+            // Redirecionar o usuário, enviar a mensagem de sucesso
+            return redirect()->route('user.index')->with('success', 'Usuário excluído com sucesso!');
+        } catch (Exception $e) {
+
+            // Redirecionar o usuário, enviar a mensagem de erro
+            return redirect()->route('user.index')->with('error', 'Usuário não excluído!');
         }
     }
 }
