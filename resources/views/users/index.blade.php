@@ -31,7 +31,7 @@
                                 <a href="{{ route('user.edit', ['user' => $user->id]) }}" class="btn-warning">Editar</a>
                                 <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', ['user' => $user->id]) }}" method="POST">
                                     @csrf
-                                    @method('PUT')
+                                    @method('DELETE')
                                     {{-- <button type="button" class="btn-danger" onclick="confirmDelete({{ $user->id }})">Apagar</button> --}}
                                     <button type="button" class="btn-danger" onclick="confirmDelete({{ $user->id }})">Apagar</button>
                                 </form>
